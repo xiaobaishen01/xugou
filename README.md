@@ -4,7 +4,7 @@
 
 ![XUGOU Logo](frontend/public/logo.svg)
 
-XUGOU 是一个基于 CloudFlare 的轻量化系统监控平台，提供系统监控和状态页面功能。
+XUGOU 是一个基于 CloudFlare 的轻量化系统监控平台，提供系统监控和状态页面功能。 
 
 </div>
 
