@@ -105,22 +105,18 @@ async function handleAgentOfflineNotification(
     }
 
     // 准备通知变量
+    const formattedIP = getFormattedIPAddresses(agent.ip_addresses);
     const variables = {
       name: agentName,
       status: "offline",
       previous_status: "online", // 添加previous_status变量
       time: new Date().toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }),
       hostname: agent.hostname || "未知",
-      ip_addresses: getFormattedIPAddresses(agent.ip_addresses),
+      ip_addresses: formattedIP,
+      ip_address: formattedIP, // 兼容旧模板
       os: agent.os || "未知",
       error: "客户端连接超时 🔴",
-      details: `主机名: ${
-        agent.hostname || "未知"
-      }\nIP地址: ${getFormattedIPAddresses(
-        agent.ip_addresses
-      )}\n操作系统: ${agent.os || "未知"}\n最后连接时间: ${new Date(
-        agent.updated_at
-      ).toLocaleString("zh-CN")}`,
+      details: `主机名: ${agent.hostname || "未知"}\nIP地址: ${formattedIP}\n操作系统: ${agent.os || "未知"}\n最后连接时间: ${new Date(agent.updated_at).toLocaleString("zh-CN")}`,
     };
 
     // 发送通知
@@ -186,20 +182,18 @@ export async function handleAgentOnlineNotification(
     }
 
     // 准备通知变量
+    const formattedIP = getFormattedIPAddresses(agent.ip_addresses);
     const variables = {
       name: agentName,
       status: "online",
       previous_status: "offline",
       time: new Date().toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }),
       hostname: agent.hostname || "未知",
-      ip_addresses: getFormattedIPAddresses(agent.ip_addresses),
+      ip_addresses: formattedIP,
+      ip_address: formattedIP, // 兼容旧模板
       os: agent.os || "未知",
       error: "客户端连接已恢复 🟢",
-      details: `主机名: ${
-        agent.hostname || "未知"
-      }\nIP地址: ${getFormattedIPAddresses(
-        agent.ip_addresses
-      )}\n操作系统: ${agent.os || "未知"}\n恢复时间: ${new Date().toLocaleString("zh-CN")}`,
+      details: `主机名: ${agent.hostname || "未知"}\nIP地址: ${formattedIP}\n操作系统: ${agent.os || "未知"}\n恢复时间: ${new Date().toLocaleString("zh-CN")}`,
     };
 
     // 发送通知
@@ -336,22 +330,18 @@ export async function handleAgentThresholdNotification(
     );
 
     // 准备通知变量
+    const formattedIP = getFormattedIPAddresses(agent.ip_addresses);
     const variables = {
       name: agent.name,
       status: `${metricName}告警`,
       previous_status: "normal", // 添加previous_status变量
       time: new Date().toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }),
       hostname: agent.hostname || "未知",
-      ip_addresses: getFormattedIPAddresses(agent.ip_addresses),
+      ip_addresses: formattedIP,
+      ip_address: formattedIP, // 兼容旧模板
       os: agent.os || "未知",
       error: `${metricName}(${value.toFixed(2)}%)超过阈值(${threshold}%)`,
-      details: `${metricName}: ${value.toFixed(
-        2
-      )}%\n阈值: ${threshold}%\n主机名: ${
-        agent.hostname || "未知"
-      }\nIP地址: ${getFormattedIPAddresses(agent.ip_addresses)}\n操作系统: ${
-        agent.os || "未知"
-      }`,
+      details: `${metricName}: ${value.toFixed(2)}%\n阈值: ${threshold}%\n主机名: ${agent.hostname || "未知"}\nIP地址: ${formattedIP}\n操作系统: ${agent.os || "未知"}`,
     };
 
     // 发送通知
